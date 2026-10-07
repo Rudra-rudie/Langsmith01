@@ -7,12 +7,12 @@ from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 
 from langsmith import traceable
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langgraph.graph import StateGraph, START, END
 
 # ---------- Setup ----------
 load_dotenv()
-model = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+model = ChatGroq(model="qwen/qwen3.8-27b", temperature=0)
 
 # ---------- Structured schema & model ----------
 class EvaluationSchema(BaseModel):
@@ -120,7 +120,7 @@ if __name__ == "__main__":
             "tags": ["essay", "langgraph", "evaluation"],
             "metadata": {
                 "essay_length": len(essay2),
-                "model": "gpt-4o-mini",
+                "model": "llama-3.3-70b-versatile",
                 "dimensions": ["language", "analysis", "clarity"],
             },
         },

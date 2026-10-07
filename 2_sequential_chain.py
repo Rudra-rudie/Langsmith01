@@ -1,7 +1,9 @@
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+import os
+os.environ["langsmith-masterclass"] = "sequencial_chain"
 
 load_dotenv()
 
@@ -15,7 +17,7 @@ prompt2 = PromptTemplate(
     input_variables=['text']
 )
 
-model = ChatOpenAI()
+model = ChatGroq(model="qwen/qwen3.8-27b")
 
 parser = StrOutputParser()
 
