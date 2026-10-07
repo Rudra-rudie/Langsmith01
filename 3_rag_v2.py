@@ -73,14 +73,20 @@ parallel = RunnableParallel({
 
 chain = parallel | prompt | llm | StrOutputParser()
 
-# ---------- run a query (also traced) ----------
-print("PDF RAG ready. Ask a question (or Ctrl+C to exit).")
-q = input("\nQ: ").strip()
+# ---------- run queries (also traced) ----------
+print("PDF RAG ready. Type your question (or 'exit' / 'quit' to stop).\n")
+while True:
+    try:
+        q = input("Q: ").strip()
+        if not q:
+            continue
+        if q.lower() in ["exit", "quit"]:
+            print("Goodbye!")
+            break
+        config = {"run_name": "pdf_rag_query"}
+        ans = chain.invoke(q, config=config)
+        print("\nA:", ans, "\n")
+    except (KeyboardInterrupt, EOFError):
+        print("\nGoodbye!")
+        break
 
-# Give the visible run name + tags/metadata so it’s easy to find:
-config = {
-    "run_name": "pdf_rag_query"
-}
-
-ans = chain.invoke(q, config=config)
-print("\nA:", ans)

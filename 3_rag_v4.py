@@ -146,7 +146,18 @@ def setup_pipeline_and_query(
 
 # ----------------- CLI -----------------
 if __name__ == "__main__":
-    print("PDF RAG ready. Ask a question (or Ctrl+C to exit).")
-    q = input("\nQ: ").strip()
-    ans = setup_pipeline_and_query(PDF_PATH, q)
-    print("\nA:", ans)
+    print("PDF RAG ready. Type your question (or 'exit' / 'quit' to stop).\n")
+    while True:
+        try:
+            q = input("Q: ").strip()
+            if not q:
+                continue
+            if q.lower() in ["exit", "quit"]:
+                print("Goodbye!")
+                break
+            ans = setup_pipeline_and_query(PDF_PATH, q)
+            print("\nA:", ans, "\n")
+        except (KeyboardInterrupt, EOFError):
+            print("\nGoodbye!")
+            break
+
